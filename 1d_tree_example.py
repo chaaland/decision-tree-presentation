@@ -13,6 +13,9 @@ from animate import rotanimate
 IMAGE_DIR = Path("images")
 IMAGE_DIR.mkdir(exist_ok=True)
 
+GIF_DIR = Path("gifs")
+GIF_DIR.mkdir(exist_ok=True)
+
 
 def remove_spines(ax) -> None:
     ax.spines.right.set_visible(False)
@@ -169,7 +172,7 @@ def plot_exact_tree_fit_loss_surface(x: np.ndarray, y: np.ndarray) -> None:
     angles = np.linspace(0, 360, 120)[:-1]
 
     # create an animated gif (5ms between frames)
-    rotanimate(ax, angles, "tree_loss_surface.gif", delay=7)
+    rotanimate(ax, angles, GIF_DIR / "tree_loss_surface.gif", delay=7)
 
 
 def plot_exact_versus_greedy_fit(x: np.ndarray, y: np.ndarray) -> None:

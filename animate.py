@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -80,7 +81,7 @@ def make_strip(files, output, **kwargs):
 ##### MAIN FUNCTION
 
 
-def rotanimate(ax, angles, output, **kwargs):
+def rotanimate(ax, angles, output: Path, **kwargs):
     """
     Produces an animation (.mp4,.ogv,.gif,.jpeg,.png) from a 3D plot on
     a 3D ax
@@ -99,7 +100,8 @@ def rotanimate(ax, angles, output, **kwargs):
             - repeat : True or False (.gif only)
     """
 
-    output_ext = os.path.splitext(output)[1]
+    # output_ext = os.path.splitext(output)[1]
+    output_ext = output.suffix
 
     files = make_views(ax, angles, **kwargs)
 
