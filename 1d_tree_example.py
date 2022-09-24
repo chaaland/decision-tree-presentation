@@ -165,8 +165,7 @@ def plot_exact_tree_fit_loss_surface(x: np.ndarray, y: np.ndarray) -> None:
 
     x1, x2, x3 = model_1.fit(x, y)
     fig = plt.figure()
-    ax = fig.gca(projection="3d")
-
+    ax = fig.add_subplot(projection="3d")
     ax.plot_trisurf(x1, x2, x3, cmap=cm.coolwarm, antialiased=False, alpha=0.9)
     plt.tight_layout()
     angles = np.linspace(0, 360, 120)[:-1]
@@ -187,16 +186,23 @@ def plot_exact_versus_greedy_fit(x: np.ndarray, y: np.ndarray) -> None:
     plt.scatter(x, y, label="Train data")
     plt.plot(x_vals, model_1.predict(x_vals), label="ExactTree", color="tab:orange")
     plt.plot(x_vals, model_2.predict(x_vals), label="GreedyTree", color="tab:purple")
-    plt.xlabel(r"$x$", fontsize=14)
-    plt.ylabel(r"$y$", fontsize=14)
+
+    plt.xlabel(r"$x$", fontsize=14, color="w")
+    plt.ylabel(r"$y$", fontsize=14, color="w")
+    ax = plt.gca()
+    ax.spines["left"].set_color("white")
+    ax.spines["bottom"].set_color("white")
     remove_spines(plt.gca())
-    plt.legend(frameon=False)
-    plt.savefig(IMAGE_DIR / "brute_force_fit.png")
+
+    leg = plt.legend(frameon=False)
+    for text in leg.get_texts():
+        text.set_color("w")
+    plt.savefig(IMAGE_DIR / "brute_force_fit.png", transparent=True)
 
     exact_mse = np.mean(np.square(y - model_1.predict(x)))
     greedy_mse = np.mean(np.square(y - model_2.predict(x)))
-    print(f"Exact tree mse: {exact_mse}")
-    print(f"Greedy tree mse {greedy_mse}")
+    print(f"Exact tree mse: {exact_mse:.4}")
+    print(f"Greedy tree mse {greedy_mse:.4}")
     print(f"Exact pct improvement over greedy: {(greedy_mse /  exact_mse - 1)*100:.4}%")
 
 
@@ -206,7 +212,7 @@ def main() -> None:
     x, y = make_1d_data(n_samples)
 
     plot_exact_tree_fit_loss_surface(x, y)
-    plot_exact_versus_greedy_fit(x, y)
+    # plot_exact_versus_greedy_fit(x, y)
 
 
 if __name__ == "__main__":
